@@ -44,6 +44,12 @@ The Database is split into different key spaces based on prefixing that can be u
 | Pending transaction       | `0x35`   | bitcoin tx id (32 bytes)                  | consensus encoded tx, change tweak        |
 | Pending Peg Out Signature | `0x36`   | bitcoin tx id (32 bytes)                  | list of signatures (1 per input)          |
 
+### Lightning
+
+Accounts: 0x40
+Offers: 0x41
+Decryption Shares: 0x42
+
 ## Client DB Layout
 
 | Name      | Prefix | Key                                | Value                        |
