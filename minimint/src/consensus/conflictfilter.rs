@@ -1,4 +1,5 @@
 use crate::transaction::{Input, Transaction};
+use minimint_ln::contracts::ContractId;
 use minimint_mint::tiered::coins::Coins;
 use minimint_mint::Coin;
 use minimint_wallet::txoproof::PegInProof;
@@ -22,6 +23,7 @@ where
     tx_accessor: F,
     coin_set: HashSet<Coins<Coin>>,
     peg_in_set: HashSet<PegInProof>,
+    in_contract_set: HashSet<ContractId>,
 }
 
 impl<I, T> ConflictFilterable<T> for I
@@ -37,6 +39,7 @@ where
             tx_accessor,
             coin_set: Default::default(),
             peg_in_set: Default::default(),
+            in_contract_set: Default::default(),
         }
     }
 }
@@ -61,6 +64,11 @@ where
                 }
                 Input::Wallet(ref peg_in) => {
                     if !self.peg_in_set.insert(peg_in.as_ref().clone()) {
+                        return None;
+                    }
+                }
+                Input::LN(input) => {
+                    if !self.in_contract_set.insert(input.crontract_id) {
                         return None;
                     }
                 }
